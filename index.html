@@ -28,22 +28,22 @@
     }
 
     var audio = $('audio');
-    var recorder;
-    $('button').on('click', function () {
-        var txt = $(this).html();
-        if (txt === 'start') {
-            recorder.start();
-            $(this).html('end');
-        } else {
-            recorder.stop();
-            $(this).html('start');
-        }
-    });
-
 
     //成功的回调函数
     function success(stream) {
-        recorder = new MediaRecorder(stream);
+        var recorder = new MediaRecorder(stream);
+
+        $('button').off('click').on('click', function () {
+            var txt = $(this).html();
+            if (txt === 'start') {
+                recorder.start();
+                $(this).html('end');
+            } else {
+                recorder.stop();
+                $(this).html('start');
+            }
+        });
+
         recorder.ondataavailable(function (event) {
             var data = event.data;
             //兼容webkit内核浏览器
