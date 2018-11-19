@@ -33,8 +33,9 @@
     //成功的回调函数
     function success(stream) {
         var recorder = new MediaRecorder(stream);
-
-        $('button').off('click').on('click', function () {
+        alert(1);
+        $('button').on('click', function () {
+            alert(2);
             var txt = $(this).html();
             if (txt === 'start') {
                 recorder.start();
@@ -45,6 +46,7 @@
             }
         });
         recorder.ondataavailable = function (event) {
+            alert(3);
             var data = event.data;
             //兼容webkit内核浏览器
             var CompatibleURL = window.URL || window.webkitURL;
