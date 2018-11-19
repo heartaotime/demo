@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>recorder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jq.js"></script>
+    <script src="recorder.js"></script>
+</head>
+<body>
+<audio controls></audio>
+<button>start</button>
+<script>
+
+    var rec = Recorder();
+
+    $('button')[0].on('click', function () {
+        var txt = $(this).html();
+        if (txt === 'start') {
+            rec.open(function () {//打开麦克风授权获得相关资源
+                rec.start();//开始录音
+            }, function (msg) {
+                console.log("无法录音:" + msg);
+            });
+            $(this).html('end');
+        } else {
+            rec.stop(function (blob) {//到达指定条件停止录音，拿到blob对象想干嘛就干嘛：立即播放、上传
+                rec.close();//释放录音资源
+
+                //兼容webkit内核浏览器
+                var CompatibleURL = window.URL || window.webkitURL;
+                //将视频流设置为video元素的源
+                $('audio')[0].attr('src', CompatibleURL.createObjectURL(blob));
+            }, function (msg) {
+                console.log("录音失败:" + msg);
+            });
+            $(this).html('start');
+        }
+    });
+
+
+</script>
+</body>
+</html>
