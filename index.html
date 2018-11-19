@@ -43,14 +43,13 @@
                 $(this).html('start');
             }
         });
-
-        recorder.ondataavailable(function (event) {
+        recorder.ondataavailable = function (event) {
             var data = event.data;
             //兼容webkit内核浏览器
             var CompatibleURL = window.URL || window.webkitURL;
             //将视频流设置为video元素的源
             audio.attr('src', CompatibleURL.createObjectURL(data));
-        });
+        };
     }
 
     //异常的回调函数
