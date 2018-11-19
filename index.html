@@ -14,7 +14,7 @@
 
     var rec = Recorder();
 
-    $('button')[0].on('click', function () {
+    $('button').on('click', function () {
         var txt = $(this).html();
         if (txt === 'start') {
             rec.open(function () {//打开麦克风授权获得相关资源
@@ -30,7 +30,7 @@
                 //兼容webkit内核浏览器
                 var CompatibleURL = window.URL || window.webkitURL;
                 //将视频流设置为video元素的源
-                $('audio')[0].attr('src', CompatibleURL.createObjectURL(blob));
+                $('audio').attr('src', CompatibleURL.createObjectURL(blob));
             }, function (msg) {
                 console.log("录音失败:" + msg);
             });
