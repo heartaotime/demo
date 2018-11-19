@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<audio id="video" src="" autoplay></audio>
+<script>
+    var audio = document.getElementById('audio');
+
+    // Get access to the camera!
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Not adding `{ audio: true }` since we only want video now
+        navigator.mediaDevices.getUserMedia({audio: true}).then(function (stream) {
+            var recorder = new MediaRecorder(stream);
+            recorder.start();
+            recorder.ondataavailable = function (event) {
+                audio.src = window.URL.createObjectURL(event.data);
+                audio.play();
+            };
+        });
+    }
+
+
+</script>
+</body>
+
+</html>

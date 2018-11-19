@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<audio controls autoplay></audio>
+<button class="recorderControl">录制</button>
+<button class="play">播放</button>
+<a href="">下载</a>
+<!--<a class="download">下载</a>-->
+<!--<audio preload="auto" hidden="false">-->
+<!--<source src="" type="video/webm">-->
+<!--</audio>-->
+
+<script src="./html5media.js"></script>
+<script src="./strophe.js"></script>
+<script>
+    //实时录音监听
+    var promise = navigator.mediaDevices.getUserMedia({audio: true});
+    var audio = document.querySelector("audio");
+    var a = document.querySelector("a");
+
+    promise.then(function (stream) {
+        var recorder = new MediaRecorder(stream);
+        var recorderControl = document.querySelector(".recorderControl");
+        recorderControl.onclick = function () {
+            // this.textContent === "录制" ? audio.play() : audio.pause();
+            this.textContent === "录制" ? recorder.start() : recorder.stop();
+            this.textContent = this.textContent === "录制" ? "停止" : "录制";
+        };
+        recorder.ondataavailable = function () {
+            // audio.src = URL.createObjectURL(event.data);
+
+            console.log(event.data);
+
+
+            //将Blob 对象转换成二进制字符串
+            var reader = new FileReader();
+            // reader.readAsBinaryString(event.data);
+            reader.readAsDataURL(event.data);
+            reader.onload = function (e) {
+                var res = reader.result;
+                console.log(res);
+                audio.src = res;
+
+
+                // var res = Base64.encode(reader.result.slice());
+                // console.info(res);
+                // var res = Base64.decode(res);
+                //将字符串转换成 Blob对象
+                // var blob = new Blob([res], {
+                //     type: 'video/webm'
+                // });
+                // console.log(blob);
+                // audio.src = URL.createObjectURL(blob);
+
+            };
+
+
+            // var buffer = new ArrayBuffer(16);
+            // var int32View = new Int32Array(buffer);
+            //
+            // for (var i = 0; i < int32View.length; i++) {
+            //     int32View[i] = i * 2;
+            // }
+
+
+            a.href = URL.createObjectURL(event.data);
+        }
+    }).catch(function (error) {
+        console.log(error)
+    });
+
+
+    var play = document.querySelector(".play");
+    play.onclick = function () {
+        audio.play();
+    };
+
+    a.onclick = function () {
+
+    };
+
+
+    //ArrayBuffer转字符串
+    function ab2str(u, f) {
+        var b = new Blob([u]);
+        var r = new FileReader();
+        r.readAsText(b, 'utf-8');
+        r.onload = function () {
+            if (f) f.call(null, r.result)
+        }
+    }
+
+    //字符串转字符串ArrayBuffer
+    function str2ab(s, f) {
+        var b = new Blob([s], {type: 'text/plain'});
+        var r = new FileReader();
+        r.readAsArrayBuffer(b);
+        r.onload = function () {
+            if (f) f.call(null, r.result)
+        }
+    }
+
+
+    // navigator.mediaDevices.getUserMedia({audio: true}).then(function (stream) {
+    //     var recorder = new MediaRecorder(stream);
+    //     var recorderButton = document.querySelector(".recorderControl");
+    //
+    //     var audio = document.querySelector("audio");
+    //
+    //     recorderButton.onclick = function () {
+    //         // this.textContent === "开始录制" ? video.play() : video.pause();
+    //         this.textContent === "开始录制" ? recorder.start() : recorder.stop();
+    //         this.textContent = this.textContent === "录制" ? "停止" : "录制";
+    //     };
+    //     //得到有效数据  收集数据
+    //     var buffers = null;
+    //     var download = document.querySelector(".download");
+    //     recorder.ondataavailable = function (event) {
+    //         //收集媒体设备获得到的可以使用的数据
+    //         console.log(event.data);
+    //         buffers = event.data;
+    //
+    //         download.href = URL.createObjectURL(buffers);
+    //         audio.src = URL.createObjectURL(buffers);
+    //         audio.play();
+    //     };
+    //     // recorder.onstop = function () {
+    //     //     //停止录制时触发函数
+    //     //     download.href = URL.createObjectURL(buffers);
+    //     //     buffers = null;
+    //     // }
+    //
+    // }).catch(function (error) {
+    //     alert(error);//抛出异常错误
+    // });
+
+</script>
+</body>
+</html>
