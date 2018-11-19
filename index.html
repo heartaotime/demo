@@ -24,7 +24,7 @@
             });
             $(this).html('end');
         } else {
-            rec.stop(function (blob) {//到达指定条件停止录音，拿到blob对象想干嘛就干嘛：立即播放、上传
+            rec.stop(function (blob) {
                 rec.close();//释放录音资源
 
                 //兼容webkit内核浏览器
