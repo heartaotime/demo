@@ -16,13 +16,13 @@
 
     $('button').on('click', function () {
         var txt = $(this).html();
-        if (txt === 'start') {
+        if (txt === '录音') {
             rec.open(function () {//打开麦克风授权获得相关资源
                 rec.start();//开始录音
             }, function (msg) {
                 console.log("无法录音:" + msg);
             });
-            $(this).html('end');
+            $(this).html('停止');
         } else {
             rec.stop(function (blob) {
                 rec.close();//释放录音资源
@@ -34,7 +34,7 @@
             }, function (msg) {
                 console.log("录音失败:" + msg);
             });
-            $(this).html('start');
+            $(this).html('录音');
         }
     });
 
