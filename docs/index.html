@@ -31,6 +31,15 @@
                 var CompatibleURL = window.URL || window.webkitURL;
                 //将视频流设置为video元素的源
                 $('audio').attr('src', CompatibleURL.createObjectURL(blob));
+
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onload = function () {
+                    var res = reader.result;
+                    var base64data = res.split('data:audio/mp3;base64,')[1];
+                    alert("获取base64文件编码成功");
+                }
+
             }, function (msg) {
                 console.log("录音失败:" + msg);
             });
