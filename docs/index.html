@@ -20,7 +20,7 @@
             rec.open(function () {//打开麦克风授权获得相关资源
                 rec.start();//开始录音
             }, function (msg) {
-                console.log("无法录音:" + msg);
+                alert("无法录音:" + msg);
             });
             $(this).html('停止');
         } else {
@@ -41,7 +41,7 @@
                 }
 
             }, function (msg) {
-                console.log("录音失败:" + msg);
+                alert("录音失败:" + msg);
             });
             $(this).html('录音');
         }
